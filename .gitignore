@@ -25,3 +25,14 @@ replay_pid*
 
 # Kotlin Gradle plugin data, see https://kotlinlang.org/docs/whatsnew20.html#new-directory-for-kotlin-data-in-gradle-projects
 .kotlin/
+
+# Android Studio and IntelliJ IDEA-related
+*.jks
+*.p12
+*.properties
+
+# Firebase credentials
+google-services.json
+
+# If you use a release signing key, you should ignore it too
+*.keystore
