@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.cadastroprodutofirebase.model.Product
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +18,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var etProductPrice: EditText
     private lateinit var etProductQuantity: EditText
     private lateinit var btnSave: Button
+
+    // Declara a instância do Firebase Firestore
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +31,9 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // Inicializa o Firebase Firestore
+        db = FirebaseFirestore.getInstance()
 
         etProductName = findViewById(R.id.et_product_name)
         etProductDescription = findViewById(R.id.et_product_description)
@@ -55,6 +62,19 @@ class MainActivity : AppCompatActivity() {
 
         // Cria um objeto Product
         val product = Product(name, description, price, quantity)
+
+        // Salva o produto no Cloud Firestore
+        db.collection("products") // Cria ou acessa a coleção 'products'
+            .add(product) // Adiciona o objeto 'product'
+            .addOnSuccessListener { documentReference ->
+                // Sucesso ao adicionar o produto
+                Toast.makeText(this, "Produto salvo com sucesso! ID: ${documentReference.id}", Toast.LENGTH_LONG).show()
+                clearFields() // Limpa os campos após o sucesso
+            }
+            .addOnFailureListener { e ->
+                // Falha ao adicionar o produto
+                Toast.makeText(this, "Erro ao salvar produto: ${e.message}", Toast.LENGTH_LONG).show()
+            }
     }
 
     private fun clearFields() {

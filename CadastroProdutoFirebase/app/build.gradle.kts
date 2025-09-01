@@ -38,6 +38,13 @@ android {
 
 dependencies {
 
+    // Importa o Firebase BoM para gerenciar as versões
+    implementation(platform(libs.firebase.bom))
+
+    // Dependências do Firebase sem versão (gerenciadas pelo BoM)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.firestore.ktx)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
